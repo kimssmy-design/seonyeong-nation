@@ -157,6 +157,9 @@
 
   <!-- 학생 관리 -->
   <div id="panel-students">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+      <button class="btn btn-gold btn-sm" onclick="doInitAllStudents()">🚀 전체 학생 문서 미리 생성</button>
+    </div>
     <div class="spinner" id="students-spinner"></div>
     <div class="card" style="overflow-x:auto;">
       <table class="student-table" id="studentTable">
@@ -296,7 +299,7 @@
 <script type="module">
   import { requireMaster, clearSession } from "../auth.js";
   import {
-    getAllStudents, getNationConfig, setNationConfig,
+    getAllStudents, getNationConfig, setNationConfig, initAllStudents,
     changePassword, changeRole, addTransaction,
     getNotices, addNotice,
     getAllReports, updateReport,
@@ -509,6 +512,23 @@
   };
 
   // 역할 변경
+  window.doInitAllStudents = async function() {
+    if (!confirm(`studentNames 목록의 학생 ${allStudentNames.length}명을 Firebase에 미리 생성할까요?`)) return;
+    const btn = event.target;
+    btn.disabled = true;
+    btn.textContent = "생성 중...";
+    try {
+      const created = await initAllStudents(allStudentNames);
+      showToast(`✅ ${created}명 문서 생성 완료! (이미 있는 학생 제외)`);
+      init();
+    } catch(e) {
+      showToast("오류: " + e.message, true);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "🚀 전체 학생 문서 미리 생성";
+    }
+  };
+
   window.doChangeRole = async function(name, role) {
     await changeRole(name, role);
     showToast(`✅ ${name} → ${role}`);
