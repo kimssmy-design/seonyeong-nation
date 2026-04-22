@@ -167,6 +167,7 @@
     document.getElementById("studentName").textContent = name;
     document.getElementById("studentRole").innerHTML = `<span class="badge badge-blue">${student.role}</span>`;
     document.getElementById("balance").textContent = (student.balance || 0).toLocaleString() + "원";
+    window._stockKey = student.stockKey || "";
 
     loadTx();
   }
@@ -288,7 +289,11 @@
   };
 
   window.openStock = function() {
-    window.open("https://sub-teacher.com/API/stock/admin.php", "_blank");
+    if (window._stockKey) {
+      window.open(`https://sub-teacher.com/API/stock/student.html?key=${window._stockKey}`, "_blank");
+    } else {
+      showToast("선생님께 반짝모의투자 등록을 부탁하세요 📈", true);
+    }
   };
 
   function showToast(msg, isError = false) {

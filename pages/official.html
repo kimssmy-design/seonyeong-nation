@@ -149,6 +149,8 @@
     document.getElementById("officialName").textContent = name;
     document.getElementById("officialRole").textContent = `💼 ${role}`;
     document.getElementById("roleEmoji").textContent = roleEmojis[role] || "🏛️";
+    const student = await getStudentByName(name);
+    window._stockKey = student?.stockKey || "";
 
     // 탭 생성
     document.getElementById("officialTabBar").innerHTML = tabs.map((t, i) =>
@@ -576,7 +578,11 @@
   };
 
   window.openStock = function() {
-    window.open("https://sub-teacher.com/API/stock/admin.php", "_blank");
+    if (window._stockKey) {
+      window.open(`https://sub-teacher.com/API/stock/student.html?key=${window._stockKey}`, "_blank");
+    } else {
+      showToast("선생님께 반짝모의투자 등록을 부탁하세요 📈", true);
+    }
   };
 
   function showToast(msg, isError = false) {
