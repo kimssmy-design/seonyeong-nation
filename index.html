@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>선영국가 목업</title>
+<link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #FFD700;
+  --navy: #0A1628;
+  --navy-mid: #112240;
+  --navy-light: #1C3461;
+  --accent: #4FC3F7;
+  --accent2: #FF6B6B;
+  --accent3: #69F0AE;
+  --text: #E8EAF6;
+  --text-dim: #8892B0;
+  --card: #13213d;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── 네비게이션 (목업용) ── */
+.dev-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: #000;
+  padding: 8px 16px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  z-index: 9999;
+  border-bottom: 2px solid var(--gold);
+}
+.dev-nav button {
+  background: #1a1a1a;
+  color: #aaa;
+  border: 1px solid #333;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.dev-nav button.active { background: var(--gold); color: #000; font-weight: 700; }
+
+/* ── 공통 레이아웃 ── */
+.page { display: none; padding-top: 44px; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ── 공통 컴포넌트 ── */
+.app-header {
+  background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+  border-bottom: 2px solid var(--gold);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-logo {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.app-logo span { font-size: 11px; color: var(--text-dim); display:block; font-weight:300; }
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.2s;
+}
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: #e6c200; }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--navy-light); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-danger { background: var(--accent2); color: white; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.input-group label { font-size: 12px; color: var(--text-dim); letter-spacing: 1px; }
+.input-group input, .input-group select {
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-group input:focus, .input-group select:focus { border-color: var(--gold); }
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.badge-gold { background: rgba(255,215,0,0.15); color: var(--gold); }
+.badge-blue { background: rgba(79,195,247,0.15); color: var(--accent); }
+.badge-green { background: rgba(105,240,174,0.15); color: var(--accent3); }
+.badge-red { background: rgba(255,107,107,0.15); color: var(--accent2); }
+
+/* ════════════════════════════════
+   1. 국민되기 (회원가입)
+════════════════════════════════ */
+#page-join .join-wrap {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.join-hero {
+  text-align: center;
+  padding: 30px 0 24px;
+}
+.join-hero .emoji { font-size: 52px; margin-bottom: 12px; }
+.join-hero h1 {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.join-hero p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+.join-card { background: var(--card); border: 1px solid var(--navy-light); border-radius: 16px; padding: 24px; }
+
+.name-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.name-chip {
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  border-radius: 8px;
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.name-chip:hover, .name-chip.selected {
+  background: rgba(255,215,0,0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.divider { text-align:center; color: var(--text-dim); font-size:12px; margin: 12px 0; position:relative; }
+.divider::before, .divider::after {
+  content:''; position:absolute; top:50%; width:42%; height:1px; background: var(--navy-light);
+}
+.divider::before { left:0; } .divider::after { right:0; }
+
+/* ════════════════════════════════
+   2. 로그인
+════════════════════════════════ */
+#page-login .login-wrap {
+  max-width: 380px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.login-hero { text-align:center; padding: 30px 0 24px; }
+.login-hero .emoji { font-size: 48px; margin-bottom: 12px; }
+.login-hero h1 { font-family:'Gmarket Sans',sans-serif; font-size:24px; color:var(--gold); margin-bottom:6px; }
+.login-hero p { font-size:13px; color:var(--text-dim); }
+
+.login-card { background:var(--card); border:1px solid var(--navy-light); border-radius:16px; padding:24px; }
+
+.login-tabs { display:flex; gap:8px; margin-bottom:20px; }
+.login-tab {
+  flex:1; padding:8px; border-radius:8px; border:none; cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif; font-size:13px; font-weight:700;
+  background:var(--navy-mid); color:var(--text-dim); transition:all 0.2s;
+}
+.login-tab.active { background:var(--gold); color:var(--navy); }
+
+.master-hint {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(255,107,107,0.1);
+  border: 1px solid rgba(255,107,107,0.3);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--accent2);
+  text-align: center;
+}
+
+/* ════════════════════════════════
+   3. 내 정보 (학생 메인)
+════════════════════════════════ */
+#page-me .me-wrap { max-width: 480px; margin: 0 auto; padding: 16px; }
+
+.me-profile {
+  background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+  border: 1px solid var(--navy-light);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.me-avatar {
+  width: 52px; height: 52px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 22px; font-weight: 900; color: var(--navy);
+  flex-shrink: 0;
+}
+.me-info h2 { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+.me-info .role { font-size: 12px; color: var(--text-dim); }
+
+.me-balance {
+  text-align: right;
+  margin-left: auto;
+}
+.me-balance .amount {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.me-balance .label { font-size: 11px; color: var(--text-dim); }
+
+.me-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  background: var(--navy-mid);
+  padding: 4px;
+  border-radius: 10px;
+}
+.me-tab {
+  flex: 1; padding: 8px 4px; border-radius: 8px; border: none; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 700;
+  background: transparent; color: var(--text-dim); transition: all 0.2s;
+}
+.me-tab.active { background: var(--navy-light); color: var(--gold); }
+
+.tx-list { display: flex; flex-direction: column; gap: 8px; }
+.tx-item {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tx-icon { font-size: 20px; }
+.tx-desc { flex: 1; }
+.tx-desc .title { font-size: 13px; font-weight: 700; }
+.tx-desc .date { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.tx-amount { font-family:'Gmarket Sans',sans-serif; font-size:15px; font-weight:700; }
+.tx-amount.plus { color: var(--accent3); }
+.tx-amount.minus { color: var(--accent2); }
+
+.notice-check-item {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-left: 4px solid var(--gold);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 8px;
+}
+.notice-check-item.checked { border-left-color: var(--accent3); opacity: 0.6; }
+.notice-check-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:6px; }
+.notice-check-title { font-size:14px; font-weight:700; }
+.notice-check-desc { font-size:12px; color:var(--text-dim); line-height:1.5; }
+
+.fine-item {
+  background: var(--card);
+  border: 1px solid rgba(255,107,107,0.3);
+  border-left: 4px solid var(--accent2);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 8px;
+}
+.fine-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.fine-amount { font-family:'Gmarket Sans',sans-serif; font-size:18px; font-weight:700; color:var(--accent2); }
+.fine-desc { font-size:12px; color:var(--text-dim); line-height:1.5; }
+
+/* ════════════════════════════════
+   4. 신고센터
+════════════════════════════════ */
+#page-report .report-wrap { max-width: 480px; margin: 0 auto; padding: 16px; }
+
+.report-form-card {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.report-form-card h3 { font-size:15px; font-weight:700; margin-bottom:14px; color:var(--accent2); }
+
+.input-group textarea {
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  outline: none;
+  width: 100%;
+  height: 100px;
+  resize: none;
+  transition: border-color 0.2s;
+}
+.input-group textarea:focus { border-color: var(--accent2); }
+
+.report-history { display:flex; flex-direction:column; gap:8px; }
+.report-hist-item {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.report-hist-content { flex:1; }
+.report-hist-title { font-size:13px; font-weight:700; margin-bottom:3px; }
+.report-hist-desc { font-size:11px; color:var(--text-dim); }
+
+/* ════════════════════════════════
+   5. 마스터 대시보드
+════════════════════════════════ */
+#page-master .master-wrap { max-width: 860px; margin: 0 auto; padding: 16px; }
+
+.master-tabs {
+  display: flex; gap: 6px; margin-bottom: 16px;
+  background: var(--navy-mid); padding: 4px; border-radius: 10px;
+  overflow-x: auto;
+}
+.master-tab {
+  flex-shrink: 0; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 700;
+  background: transparent; color: var(--text-dim); transition: all 0.2s; white-space:nowrap;
+}
+.master-tab.active { background: var(--gold); color: var(--navy); }
+
+.master-panel { display:none; }
+.master-panel.active { display:block; }
+
+/* 요약 카드 */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.summary-card {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+.summary-card .s-icon { font-size: 22px; margin-bottom: 6px; }
+.summary-card .s-label { font-size: 11px; color: var(--text-dim); margin-bottom: 4px; }
+.summary-card .s-val { font-size: 20px; font-weight: 900; font-family:'Gmarket Sans',sans-serif; color: var(--gold); }
+
+/* 학생 테이블 */
+.student-table { width:100%; border-collapse:collapse; }
+.student-table th {
+  background: var(--navy-mid); padding: 10px 12px; text-align:left;
+  font-size:12px; color:var(--text-dim); letter-spacing:1px;
+  border-bottom: 1px solid var(--navy-light);
+}
+.student-table td {
+  padding: 10px 12px; font-size:13px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.student-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* 공지 확인 현황 */
+.notice-stat-item {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+.notice-stat-top {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+}
+.notice-stat-title { font-size:14px; font-weight:700; }
+.notice-stat-count { font-size:13px; color:var(--accent3); font-weight:700; }
+
+.confirm-bar {
+  background: var(--navy-mid);
+  border-radius: 4px;
+  height: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.confirm-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--accent3), var(--accent));
+  border-radius: 4px;
+  transition: width 0.5s;
+}
+
+.confirm-names { display:flex; flex-wrap:wrap; gap:6px; }
+.confirm-chip {
+  font-size:11px; padding:3px 8px; border-radius:20px;
+  background: rgba(105,240,174,0.1); color:var(--accent3); border:1px solid rgba(105,240,174,0.2);
+}
+.unconfirm-chip {
+  font-size:11px; padding:3px 8px; border-radius:20px;
+  background: rgba(255,107,107,0.1); color:var(--accent2); border:1px solid rgba(255,107,107,0.2);
+}
+
+/* 신고 관리 */
+.report-manage-item {
+  background: var(--card);
+  border: 1px solid var(--navy-light);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+.report-manage-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.report-manage-title { font-size:14px; font-weight:700; margin-bottom:3px; }
+.report-manage-meta { font-size:12px; color:var(--accent2); }
+.report-manage-desc { font-size:12px; color:var(--text-dim); line-height:1.5; margin-bottom:10px; }
+.report-manage-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* 국가 설정 */
+.setting-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--navy-light);
+  gap:12px;
+}
+.setting-row:last-child { border-bottom:none; }
+.setting-label { font-size:14px; font-weight:700; }
+.setting-desc { font-size:12px; color:var(--text-dim); margin-top:2px; }
+.setting-input {
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  border-radius: 8px; padding: 8px 12px; color: var(--text);
+  font-size:14px; font-family:'Noto Sans KR',sans-serif; outline:none;
+  width:200px;
+}
+
+/* ════════════════════════════════
+   6. 공직자 패널
+════════════════════════════════ */
+#page-official .official-wrap { max-width: 520px; margin: 0 auto; padding: 16px; }
+
+.official-header {
+  background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display:flex; align-items:center; gap:14px;
+}
+.official-badge { font-size: 32px; }
+.official-name { font-size:16px; font-weight:900; }
+.official-role { font-size:12px; color:var(--gold); margin-top:2px; }
+
+.official-tabs {
+  display:flex; gap:6px; margin-bottom:14px;
+  background:var(--navy-mid); padding:4px; border-radius:10px;
+}
+.official-tab {
+  flex:1; padding:8px 4px; border-radius:8px; border:none; cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif; font-size:12px; font-weight:700;
+  background:transparent; color:var(--text-dim); transition:all 0.2s;
+}
+.official-tab.active { background:var(--gold); color:var(--navy); }
+
+.official-panel { display:none; }
+.official-panel.active { display:block; }
+
+.student-check-list { display:flex; flex-direction:column; gap:6px; }
+.student-check-item {
+  background:var(--card); border:1px solid var(--navy-light); border-radius:10px;
+  padding:12px 14px; display:flex; align-items:center; gap:12px;
+}
+.student-check-item .sname { flex:1; font-size:14px; font-weight:700; }
+.student-check-item .samount { font-family:'Gmarket Sans',sans-serif; font-size:13px; color:var(--gold); }
+
+/* 하단 네비게이션 */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left:0; right:0;
+  background: var(--navy-mid);
+  border-top: 1px solid var(--navy-light);
+  display: flex;
+  z-index: 100;
+}
+.bottom-nav button {
+  flex:1; padding:10px 4px; border:none; background:transparent;
+  color:var(--text-dim); font-size:10px; font-family:'Noto Sans KR',sans-serif;
+  cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px;
+  transition: color 0.2s;
+}
+.bottom-nav button .icon { font-size:20px; }
+.bottom-nav button.active { color:var(--gold); }
+
+/* 바텀네비 여백 */
+.has-bottom-nav { padding-bottom: 64px; }
+</style>
+</head>
+<body>
+
+<!-- 목업 네비 -->
+<div class="dev-nav">
+  <span style="color:#666;font-size:11px;padding:4px 6px;">화면전환:</span>
+  <button onclick="showPage('join')" id="btn-join">📋 국민되기</button>
+  <button onclick="showPage('login')" id="btn-login">🔐 로그인</button>
+  <button onclick="showPage('me')" id="btn-me">👤 내정보</button>
+  <button onclick="showPage('report')" id="btn-report">🚨 신고센터</button>
+  <button onclick="showPage('official')" id="btn-official">🏛️ 공직자패널</button>
+  <button onclick="showPage('master')" id="btn-master">👑 마스터</button>
+</div>
+
+<!-- ══════════════════════════════
+  1. 국민되기 (회원가입)
+══════════════════════════════ -->
+<div class="page active" id="page-join">
+  <div class="join-wrap">
+    <div class="join-hero">
+      <div class="emoji">🏛️</div>
+      <h1>선영국가 국민되기</h1>
+      <p>이름을 선택하고 비밀번호를 설정하면<br>선영국가의 국민이 됩니다!</p>
+    </div>
+    <div class="join-card">
+      <div class="input-group">
+        <label>내 이름 선택</label>
+        <div class="name-grid">
+          <div class="name-chip selected">김지훈</div>
+          <div class="name-chip">이소연</div>
+          <div class="name-chip">박민준</div>
+          <div class="name-chip">최유진</div>
+          <div class="name-chip">정다은</div>
+          <div class="name-chip">한승우</div>
+          <div class="name-chip">오지민</div>
+          <div class="name-chip">윤서준</div>
+          <div class="name-chip">강채원</div>
+          <div class="name-chip">임도현</div>
+          <div class="name-chip">신예은</div>
+          <div class="name-chip">조민서</div>
+          <div class="name-chip">황지우</div>
+          <div class="name-chip">류하진</div>
+          <div class="name-chip">백성민</div>
+          <div class="name-chip">남지현</div>
+          <div class="name-chip">전우진</div>
+          <div class="name-chip">송아름</div>
+          <div class="name-chip">고태양</div>
+          <div class="name-chip">문하늘</div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>비밀번호 설정 (숫자 4자리)</label>
+        <input type="password" maxlength="4" placeholder="예: 1234" inputmode="numeric">
+      </div>
+      <div class="input-group">
+        <label>비밀번호 확인</label>
+        <input type="password" maxlength="4" placeholder="다시 입력" inputmode="numeric">
+      </div>
+      <button class="btn btn-gold" style="width:100%;margin-top:4px;">🎉 국민 등록하기</button>
+      <div style="text-align:center;margin-top:12px;">
+        <span style="font-size:12px;color:var(--text-dim);">이미 등록했나요? </span>
+        <span style="font-size:12px;color:var(--gold);cursor:pointer;" onclick="showPage('login')">로그인하기 →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+  2. 로그인
+══════════════════════════════ -->
+<div class="page" id="page-login">
+  <div class="login-wrap">
+    <div class="login-hero">
+      <div class="emoji">🔐</div>
+      <h1>로그인</h1>
+      <p>이름과 비밀번호로 입장하세요</p>
+    </div>
+    <div class="login-card">
+      <div class="login-tabs">
+        <button class="login-tab active">👤 일반 국민</button>
+        <button class="login-tab">🏛️ 공직자</button>
+        <button class="login-tab">👑 마스터</button>
+      </div>
+      <div class="input-group">
+        <label>이름 입력</label>
+        <input type="text" placeholder="이름을 입력하세요 (예: 김지훈)">
+      </div>
+      <div class="input-group">
+        <label>비밀번호</label>
+        <input type="password" maxlength="4" placeholder="숫자 4자리" inputmode="numeric">
+      </div>
+      <button class="btn btn-gold" style="width:100%;">입장하기 →</button>
+      <div class="master-hint" style="display:none;">
+        마스터 비밀번호는 담임선생님께 문의하세요
+      </div>
+      <div style="text-align:center;margin-top:12px;">
+        <span style="font-size:12px;color:var(--text-dim);">아직 등록 안 했나요? </span>
+        <span style="font-size:12px;color:var(--gold);cursor:pointer;" onclick="showPage('join')">국민되기 →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+  3. 내 정보 (학생 메인)
+══════════════════════════════ -->
+<div class="page has-bottom-nav" id="page-me">
+  <div class="app-header">
+    <div class="app-logo">🏛️ 선영국가 <span>내 정보</span></div>
+    <button class="btn btn-outline btn-sm">로그아웃</button>
+  </div>
+  <div class="me-wrap">
+    <div class="me-profile">
+      <div class="me-avatar">김</div>
+      <div class="me-info">
+        <h2>김지훈</h2>
+        <div class="role"><span class="badge badge-blue">일반국민</span></div>
+      </div>
+      <div class="me-balance">
+        <div class="amount">9,500원</div>
+        <div class="label">보유 가상화폐</div>
+      </div>
+    </div>
+
+    <div class="me-tabs">
+      <button class="me-tab active" onclick="meTab(this,'me-tx')">💸 거래내역</button>
+      <button class="me-tab" onclick="meTab(this,'me-notice')">📢 공지확인</button>
+      <button class="me-tab" onclick="meTab(this,'me-fine')">📄 고지서</button>
+    </div>
+
+    <!-- 거래내역 -->
+    <div class="me-panel active" id="me-tx">
+      <div class="tx-list">
+        <div class="tx-item"><div class="tx-icon">💰</div><div class="tx-desc"><div class="title">주급 지급</div><div class="date">05/19 월요일</div></div><div class="tx-amount plus">+1,500원</div></div>
+        <div class="tx-item"><div class="tx-icon">🏛️</div><div class="tx-desc"><div class="title">세금 납부</div><div class="date">05/19 월요일</div></div><div class="tx-amount minus">-500원</div></div>
+        <div class="tx-item"><div class="tx-icon">🌟</div><div class="tx-desc"><div class="title">칭찬쿠폰 보상</div><div class="date">05/16 금요일</div></div><div class="tx-amount plus">+1,000원</div></div>
+        <div class="tx-item"><div class="tx-icon">🛒</div><div class="tx-desc"><div class="title">매점 구매</div><div class="date">05/14 수요일</div></div><div class="tx-amount minus">-1,000원</div></div>
+        <div class="tx-item"><div class="tx-icon">💰</div><div class="tx-desc"><div class="title">주급 지급</div><div class="date">05/12 월요일</div></div><div class="tx-amount plus">+1,500원</div></div>
+      </div>
+    </div>
+
+    <!-- 공지 확인 -->
+    <div class="me-panel" id="me-notice" style="display:none">
+      <div class="notice-check-item">
+        <div class="notice-check-top">
+          <div class="notice-check-title">⚠️ 이번 주 매점 운영 안내</div>
+          <button class="btn btn-gold btn-sm">확인</button>
+        </div>
+        <div class="notice-check-desc">5월 14일(수) 종례 직후 매점 오픈 예정입니다. 품목: 새우깡, 꼬북칩, 포카칩 각 1,000원</div>
+      </div>
+      <div class="notice-check-item checked">
+        <div class="notice-check-top">
+          <div class="notice-check-title">🎟️ 복권 판매 안내</div>
+          <span class="badge badge-green">✓ 확인완료</span>
+        </div>
+        <div class="notice-check-desc">화요일까지 기자에게 500원 내고 복권을 구매하세요.</div>
+      </div>
+      <div class="notice-check-item">
+        <div class="notice-check-top">
+          <div class="notice-check-title">🪑 자리 청약 신청 안내</div>
+          <button class="btn btn-gold btn-sm">확인</button>
+        </div>
+        <div class="notice-check-desc">5월 18일(월) 주급 지급 후 청약 신청 가능. 최소 3,000원 이상 보유자만 신청 가능합니다.</div>
+      </div>
+    </div>
+
+    <!-- 고지서 -->
+    <div class="me-panel" id="me-fine" style="display:none">
+      <div class="fine-item">
+        <div class="fine-top">
+          <div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">⚠️ 벌금 고지서</div>
+            <div style="font-size:11px;color:var(--text-dim);">발행: 05/10 · 감찰관</div>
+          </div>
+          <div class="fine-amount">2,000원</div>
+        </div>
+        <div class="fine-desc">사유: 매점 물품 무단 취득<br>납부 기한: 05/17(금)까지 세금징수원에게 납부</div>
+        <button class="btn btn-outline btn-sm" style="margin-top:10px;">납부 완료 신청</button>
+      </div>
+      <div style="text-align:center;padding:30px;color:var(--text-dim);font-size:13px;">
+        미납 고지서가 없습니다 ✅
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="active"><span class="icon">👤</span>내정보</button>
+    <button onclick="showPage('report')"><span class="icon">🚨</span>신고</button>
+    <button><span class="icon">📈</span>주식</button>
+    <button><span class="icon">📊</span>현황판</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+  4. 신고센터
+══════════════════════════════ -->
+<div class="page has-bottom-nav" id="page-report">
+  <div class="app-header">
+    <div class="app-logo">🚨 신고센터 <span>선영국가</span></div>
+  </div>
+  <div class="report-wrap">
+    <div class="report-form-card">
+      <h3>📋 신고 접수하기</h3>
+      <div class="input-group">
+        <label>신고 유형</label>
+        <select>
+          <option>-- 유형 선택 --</option>
+          <option>매점 물품 도난</option>
+          <option>사행성 도박</option>
+          <option>근무 태만</option>
+          <option>규칙 위반</option>
+          <option>기타</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>신고 내용</label>
+        <textarea placeholder="구체적인 내용을 작성해주세요. 신고자 이름은 마스터(담임선생님)만 볼 수 있습니다."></textarea>
+      </div>
+      <button class="btn btn-danger" style="width:100%;">🚨 신고 접수하기</button>
+      <div style="margin-top:10px;font-size:11px;color:var(--text-dim);text-align:center;">
+        신고자 이름은 담임선생님(마스터)만 확인할 수 있습니다
+      </div>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--text-dim);margin-bottom:10px;letter-spacing:1px;">📋 신고 현황 (전체 공개)</div>
+    <div class="report-history">
+      <div class="report-hist-item"><div class="report-hist-content"><div class="report-hist-title">매점 물품 무단 취득 건</div><div class="report-hist-desc">05/10 · <span class="badge badge-green">처리완료</span> · 벌금 2,000원 부과</div></div></div>
+      <div class="report-hist-item"><div class="report-hist-content"><div class="report-hist-title">근무 태만 신고</div><div class="report-hist-desc">05/12 · <span class="badge badge-blue">조사중</span> · 감찰관 면담 진행 중</div></div></div>
+      <div class="report-hist-item"><div class="report-hist-content"><div class="report-hist-title">사행성 도박 신고</div><div class="report-hist-desc">05/13 · <span class="badge badge-gold">접수됨</span> · 감찰관 배정 대기</div></div></div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button onclick="showPage('me')"><span class="icon">👤</span>내정보</button>
+    <button class="active"><span class="icon">🚨</span>신고</button>
+    <button><span class="icon">📈</span>주식</button>
+    <button><span class="icon">📊</span>현황판</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+  5. 마스터 대시보드
+══════════════════════════════ -->
+<div class="page" id="page-master">
+  <div class="app-header">
+    <div class="app-logo">👑 마스터 대시보드 <span>담임 전용</span></div>
+    <button class="btn btn-outline btn-sm">로그아웃</button>
+  </div>
+  <div class="master-wrap">
+    <div class="summary-grid">
+      <div class="summary-card"><div class="s-icon">👥</div><div class="s-label">전체 학생</div><div class="s-val">25명</div></div>
+      <div class="summary-card"><div class="s-icon">💰</div><div class="s-label">총 통화량</div><div class="s-val">142,500</div></div>
+      <div class="summary-card"><div class="s-icon">🏛️</div><div class="s-label">국고 잔액</div><div class="s-val">28,000</div></div>
+      <div class="summary-card"><div class="s-icon">🚨</div><div class="s-label">미처리 신고</div><div class="s-val" style="color:var(--accent2)">2건</div></div>
+    </div>
+
+    <div class="master-tabs">
+      <button class="master-tab active" onclick="masterTab(this,'mp-students')">👥 학생 관리</button>
+      <button class="master-tab" onclick="masterTab(this,'mp-notice')">📢 공지 관리</button>
+      <button class="master-tab" onclick="masterTab(this,'mp-report')">🚨 신고 관리</button>
+      <button class="master-tab" onclick="masterTab(this,'mp-money')">💸 가상화폐</button>
+      <button class="master-tab" onclick="masterTab(this,'mp-setting')">⚙️ 국가 설정</button>
+    </div>
+
+    <!-- 학생 관리 -->
+    <div class="master-panel active" id="mp-students">
+      <div class="card" style="overflow-x:auto;">
+        <table class="student-table">
+          <thead>
+            <tr>
+              <th>이름</th>
+              <th>역할</th>
+              <th>보유액</th>
+              <th>가입여부</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>김지훈</td><td><span class="badge badge-blue">일반국민</span></td><td style="font-family:'Gmarket Sans';color:var(--gold)">9,500원</td><td><span class="badge badge-green">가입</span></td><td><button class="btn btn-outline btn-sm">비번변경</button></td></tr>
+            <tr><td>이소연</td><td><span class="badge badge-gold">은행원</span></td><td style="font-family:'Gmarket Sans';color:var(--gold)">12,000원</td><td><span class="badge badge-green">가입</span></td><td><button class="btn btn-outline btn-sm">비번변경</button></td></tr>
+            <tr><td>박민준</td><td><span class="badge badge-blue">일반국민</span></td><td style="font-family:'Gmarket Sans';color:var(--gold)">10,500원</td><td><span class="badge badge-red">미가입</span></td><td><button class="btn btn-outline btn-sm">비번변경</button></td></tr>
+            <tr><td>최유진</td><td><span class="badge badge-gold">기자</span></td><td style="font-family:'Gmarket Sans';color:var(--gold)">9,000원</td><td><span class="badge badge-green">가입</span></td><td><button class="btn btn-outline btn-sm">비번변경</button></td></tr>
+            <tr><td>정다은</td><td><span class="badge badge-gold">검사</span></td><td style="font-family:'Gmarket Sans';color:var(--gold)">8,500원</td><td><span class="badge badge-green">가입</span></td><td><button class="btn btn-outline btn-sm">비번변경</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 공지 관리 -->
+    <div class="master-panel" id="mp-notice">
+      <div class="card" style="margin-bottom:14px;">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">📢 새 공지 등록</div>
+        <div class="input-group"><label>제목</label><input type="text" placeholder="공지 제목 입력"></div>
+        <div class="input-group"><label>내용</label><textarea style="background:var(--navy-mid);border:1px solid var(--navy-light);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'Noto Sans KR',sans-serif;outline:none;width:100%;height:80px;resize:none;" placeholder="공지 내용 입력"></textarea></div>
+        <button class="btn btn-gold">공지 등록하기</button>
+      </div>
+
+      <div class="notice-stat-item">
+        <div class="notice-stat-top">
+          <div class="notice-stat-title">⚠️ 이번 주 매점 운영 안내</div>
+          <div class="notice-stat-count">18 / 25명 확인</div>
+        </div>
+        <div class="confirm-bar"><div class="confirm-fill" style="width:72%"></div></div>
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px;">✅ 확인한 학생</div>
+        <div class="confirm-names" style="margin-bottom:10px;">
+          <span class="confirm-chip">김지훈</span><span class="confirm-chip">이소연</span><span class="confirm-chip">최유진</span><span class="confirm-chip">정다은</span><span class="confirm-chip">한승우</span><span class="confirm-chip">오지민</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px;">❌ 미확인 학생</div>
+        <div class="confirm-names">
+          <span class="unconfirm-chip">박민준</span><span class="unconfirm-chip">윤서준</span><span class="unconfirm-chip">강채원</span>
+        </div>
+      </div>
+
+      <div class="notice-stat-item">
+        <div class="notice-stat-top">
+          <div class="notice-stat-title">🎟️ 복권 판매 안내</div>
+          <div class="notice-stat-count">25 / 25명 확인</div>
+        </div>
+        <div class="confirm-bar"><div class="confirm-fill" style="width:100%"></div></div>
+        <div style="font-size:12px;color:var(--accent3);">전원 확인 완료 ✅</div>
+      </div>
+    </div>
+
+    <!-- 신고 관리 -->
+    <div class="master-panel" id="mp-report">
+      <div class="report-manage-item">
+        <div class="report-manage-top">
+          <div><div class="report-manage-title">매점 물품 무단 취득</div><div class="report-manage-meta">신고자: 이소연 (실명) · 05/10</div></div>
+          <span class="badge badge-green">처리완료</span>
+        </div>
+        <div class="report-manage-desc">새우깡 1개를 구매하지 않고 가져간 정황 목격. 벌금 2,000원 부과 완료.</div>
+        <div class="report-manage-actions">
+          <button class="btn btn-outline btn-sm">상태 변경</button>
+          <button class="btn btn-outline btn-sm">고지서 발행</button>
+        </div>
+      </div>
+      <div class="report-manage-item">
+        <div class="report-manage-top">
+          <div><div class="report-manage-title">근무 태만 신고</div><div class="report-manage-meta">신고자: 박민준 (실명) · 05/12</div></div>
+          <span class="badge badge-blue">조사중</span>
+        </div>
+        <div class="report-manage-desc">은행원이 3일 연속 주급 지급 업무를 미루고 있다는 내용.</div>
+        <div class="report-manage-actions">
+          <button class="btn btn-outline btn-sm">상태 변경</button>
+          <button class="btn btn-danger btn-sm">벌금 고지서 발행</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 가상화폐 지급/차감 -->
+    <div class="master-panel" id="mp-money">
+      <div class="card" style="margin-bottom:14px;">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">💸 가상화폐 지급 / 차감</div>
+        <div class="input-group"><label>대상 학생</label>
+          <select><option>-- 학생 선택 --</option><option>김지훈</option><option>이소연</option><option>전체 학생</option></select>
+        </div>
+        <div class="input-group"><label>금액</label><input type="number" placeholder="예: 1000" step="500"></div>
+        <div class="input-group"><label>사유</label><input type="text" placeholder="예: 주급 지급, 칭찬쿠폰, 벌금"></div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="btn btn-gold" style="flex:1;">+ 지급</button>
+          <button class="btn btn-danger" style="flex:1;">− 차감</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 국가 설정 -->
+    <div class="master-panel" id="mp-setting">
+      <div class="card">
+        <div class="setting-row">
+          <div><div class="setting-label">국가 이름</div><div class="setting-desc">키오스크 및 앱 상단에 표시됩니다</div></div>
+          <input class="setting-input" type="text" value="선영국가">
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-label">학급명</div><div class="setting-desc">예: 3학년 2반</div></div>
+          <input class="setting-input" type="text" value="3학년 X반">
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-label">마스터 비밀번호 변경</div><div class="setting-desc">담임선생님 전용 비밀번호</div></div>
+          <input class="setting-input" type="password" placeholder="새 비밀번호">
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-label">매점 운영 상태</div><div class="setting-desc">현재 매점 열림/닫힘 표시</div></div>
+          <select class="setting-input" style="width:120px;">
+            <option>🔒 닫힘</option>
+            <option>🟢 열림</option>
+          </select>
+        </div>
+        <button class="btn btn-gold" style="margin-top:16px;">저장하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+  6. 공직자 패널
+══════════════════════════════ -->
+<div class="page has-bottom-nav" id="page-official">
+  <div class="app-header">
+    <div class="app-logo">🏛️ 공직자 패널 <span>선영국가</span></div>
+    <button class="btn btn-outline btn-sm">로그아웃</button>
+  </div>
+  <div class="official-wrap">
+    <div class="official-header">
+      <div class="official-badge">🏦</div>
+      <div>
+        <div class="official-name">이소연</div>
+        <div class="official-role">💼 은행원</div>
+      </div>
+    </div>
+
+    <div class="official-tabs">
+      <button class="official-tab active" onclick="officialTab(this,'op-give')">💰 지급처리</button>
+      <button class="official-tab" onclick="officialTab(this,'op-tax')">🏛️ 세금확인</button>
+      <button class="official-tab" onclick="officialTab(this,'op-log')">📋 기록</button>
+    </div>
+
+    <!-- 지급처리 -->
+    <div class="official-panel active" id="op-give">
+      <div class="card" style="margin-bottom:14px;">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">💰 칭찬쿠폰 / 주급 지급</div>
+        <div class="input-group"><label>대상 학생</label>
+          <select><option>-- 학생 선택 --</option><option>김지훈</option><option>박민준</option><option>전체 학생 (주급)</option></select>
+        </div>
+        <div class="input-group"><label>지급 유형</label>
+          <select><option>칭찬쿠폰 (+1,000원)</option><option>주급 (역할별 자동)</option><option>이벤트 보너스</option></select>
+        </div>
+        <button class="btn btn-gold" style="width:100%;">지급 처리하기</button>
+      </div>
+    </div>
+
+    <!-- 세금 확인 -->
+    <div class="official-panel" id="op-tax" style="display:none;">
+      <div style="font-size:13px;color:var(--text-dim);margin-bottom:10px;">이번 주 세금 납부 현황 (월요일 기준)</div>
+      <div class="student-check-list">
+        <div class="student-check-item"><div class="sname">김지훈</div><div class="samount">500원</div><span class="badge badge-green">납부완료</span></div>
+        <div class="student-check-item"><div class="sname">이소연</div><div class="samount">1,000원</div><span class="badge badge-green">납부완료</span></div>
+        <div class="student-check-item"><div class="sname">박민준</div><div class="samount">500원</div><span class="badge badge-red">미납</span><button class="btn btn-gold btn-sm" style="margin-left:8px;">처리</button></div>
+        <div class="student-check-item"><div class="sname">최유진</div><div class="samount">500원</div><span class="badge badge-green">납부완료</span></div>
+        <div class="student-check-item"><div class="sname">정다은</div><div class="samount">500원</div><span class="badge badge-red">미납</span><button class="btn btn-gold btn-sm" style="margin-left:8px;">처리</button></div>
+      </div>
+    </div>
+
+    <!-- 기록 -->
+    <div class="official-panel" id="op-log" style="display:none;">
+      <div class="tx-list">
+        <div class="tx-item"><div class="tx-icon">💰</div><div class="tx-desc"><div class="title">전체 주급 지급 (25명)</div><div class="date">05/19 09:10</div></div><div class="tx-amount minus">처리완료</div></div>
+        <div class="tx-item"><div class="tx-icon">🌟</div><div class="tx-desc"><div class="title">칭찬쿠폰 · 박민준</div><div class="date">05/16 15:30</div></div><div class="tx-amount plus">+1,000원</div></div>
+        <div class="tx-item"><div class="tx-icon">🌟</div><div class="tx-desc"><div class="title">칭찬쿠폰 · 정다은</div><div class="date">05/15 10:20</div></div><div class="tx-amount plus">+1,000원</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button onclick="showPage('me')"><span class="icon">👤</span>내정보</button>
+    <button onclick="showPage('report')"><span class="icon">🚨</span>신고</button>
+    <button><span class="icon">📈</span>주식</button>
+    <button class="active"><span class="icon">🏛️</span>공직</button>
+  </div>
+</div>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.dev-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.getElementById('btn-' + name).classList.add('active');
+}
+
+function meTab(btn, panelId) {
+  document.querySelectorAll('.me-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.me-panel').forEach(p => p.style.display = 'none');
+  btn.classList.add('active');
+  document.getElementById(panelId).style.display = 'block';
+}
+
+function masterTab(btn, panelId) {
+  document.querySelectorAll('.master-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.master-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+function officialTab(btn, panelId) {
+  document.querySelectorAll('.official-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.official-panel').forEach(p => { p.style.display='none'; p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).style.display = 'block';
+}
+
+// 이름 칩 선택
+document.querySelectorAll('.name-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.name-chip').forEach(c => c.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// 초기 활성화
+document.getElementById('btn-join').classList.add('active');
+</script>
+</body>
+</html>
